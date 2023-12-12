@@ -226,14 +226,15 @@ exports.signup = async (req, res) => {
 		// Find the most recent OTP for the email
 		const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
         // const response = await OTP.find({ email }).sort({ createdAt: -1 });
-		console.log(response);
+		console.log(response)
 		if (response.length === 0) {
 			// OTP not found for the email
 			return res.status(400).json({
 				success: false,
 				message: "The OTP is not valid",
 			});
-		} else if (otp !== response[0].otp) {
+		}
+         else if (otp !== response[0].otp) {
 			// Invalid OTP
 			return res.status(400).json({
 				success: false,
@@ -266,12 +267,6 @@ exports.signup = async (req, res) => {
 			additionalDetails: profileDetails._id,
 			image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
 		});
-
-		return res.status(200).json({
-			success: true,
-			user,
-			message: "User registered successfully",
-		});
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({
@@ -280,6 +275,7 @@ exports.signup = async (req, res) => {
 		});
 	}
 };
+
 
 //login
 exports.login = async (req, res) => {
@@ -323,6 +319,8 @@ exports.login = async (req, res) => {
             user.token = token;
             user.password = undefined;
 
+            
+
             //creating... cookie && //sending...  final RESPONSE 
             const options = {
                 expires: new Date(Date.now() + 3*24*60*60*1000),
@@ -334,7 +332,6 @@ exports.login = async (req, res) => {
                 user,
                 message:"LOGGED IN SUCCESSFULLY",
             });
-        
         }
         else{
             return res.status(401).json({
@@ -354,7 +351,7 @@ exports.login = async (req, res) => {
 
 
 //changing.. password
-//TODO: HOMEWORK
+
 exports.changePassword = async (req, res) => {
     try{
         //get data from req body
@@ -406,7 +403,8 @@ exports.changePassword = async (req, res) => {
 				)
 			);
 			console.log("Email sent successfully:", emailResponse.response);
-        } catch(error){
+        } catch(error)
+        {
             // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
 			console.error("Error occurred while sending email:", error);
 			return res.status(500).json({
@@ -416,7 +414,6 @@ exports.changePassword = async (req, res) => {
 			});
 
         }
-
         //return final response
         return res
 			.status(200)

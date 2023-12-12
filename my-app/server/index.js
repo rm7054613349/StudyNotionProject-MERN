@@ -23,26 +23,14 @@ database.connect();
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
-// app.use(
-// 	cors({
-// 		origin:"http://localhost:3000",
-// 		credentials:true,
-// 	})
-// )
+
 app.use(
 	cors({
 		origin: "*",
 		credentials: true,
 	})
 );
-// app.use(function(req, res, next) {
-// 	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-// 	res.header(
-// 	  'Access-Control-Allow-Headers',
-// 	  'Origin, X-Requested-With, Content-Type, Accept'
-// 	);
-// 	next();
-// });
+
 
 app.use(
 	fileUpload({
@@ -71,8 +59,13 @@ app.get("/", (req, res) => {
 	});
 });
 
+
+app.use("/api/ram",(req, res) => {
+	return res.json({
+		name:"ram"
+	});
+} )
+
 app.listen(PORT, () => {
 	console.log(`App is running at ${PORT}`)
 })
-
-// D:\CODES-wev-Devolopment\mp-7\server\index.js

@@ -16,7 +16,7 @@ exports.resetPasswordToken = async (req, res) => {
                 message:'Your Email is not registered with us'});
             }
 
-        //generating... token
+        //generating... token // sequre and create random token every time
         const token  = crypto.randomBytes(20).toString("hex");
 
         //updating... user by adding token and expirationTime
@@ -33,7 +33,7 @@ exports.resetPasswordToken = async (req, res) => {
         //link generation...
         //create url
         const url = `http://localhost:3000/update-password/${token}`;
-        // const url = `https://study-notion-mega-project-3602xqx0r-dhruv9316.vercel.app/update-password/${token}`;
+        // const url = `https://study-notion-project-mern.vercel.app/update-password/${token}`;
 
         //sending... mail
         await mailSender(email, 
@@ -66,6 +66,7 @@ exports.resetPassword = async (req, res) => {
         const {password, confirmPassword, token} = req.body;
         // const {token} = req.body.token || req.cookies.token;
         console.log("token---------------------->", token);
+
         //validation
         if(password !== confirmPassword) {
             return res.json({
@@ -73,6 +74,7 @@ exports.resetPassword = async (req, res) => {
                 message:'Password does not MATCHED',
             });
         }
+        
         //getting.. userdetails from db using token
         const userDetails = await User.findOne({token: token});
         //if no entry - invalid token

@@ -17,6 +17,7 @@ exports.updateProfile = async (req, res) => {
       contactNumber = "",
       gender = "",
     } = req.body
+    
     const id = req.user.id
 
     // Find the profile by id
@@ -72,6 +73,7 @@ exports.deleteAccount = async (req, res) => {
     await Profile.findByIdAndDelete({
       _id: new mongoose.Types.ObjectId(user.additionalDetails),
     })
+
     for (const courseId of user.courses) {
       await Course.findByIdAndUpdate(
         courseId,
@@ -94,6 +96,7 @@ exports.deleteAccount = async (req, res) => {
   }
 }
 
+
 exports.getAllUserDetails = async (req, res) => {
   try {
     const id = req.user.id
@@ -113,6 +116,7 @@ exports.getAllUserDetails = async (req, res) => {
     })
   }
 }
+
 
 exports.updateDisplayPicture = async (req, res) => {
   try {
@@ -142,6 +146,7 @@ exports.updateDisplayPicture = async (req, res) => {
     })
   }
 }
+
 
 exports.getEnrolledCourses = async (req, res) => {
   try {

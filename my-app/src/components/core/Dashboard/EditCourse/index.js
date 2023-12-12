@@ -9,7 +9,8 @@ import {
 import { setCourse, setEditCourse } from "../../../../slices/courseSlice"
 import RenderSteps from "../AddCourse/RenderSteps"
 
-export default function EditCourse() {
+export default function EditCourse() 
+{
   const dispatch = useDispatch()
   const { courseId } = useParams()
   const { course } = useSelector((state) => state.course)
