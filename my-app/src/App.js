@@ -3,7 +3,6 @@ import {Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home"
 import Navbar from "./components/common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
-
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import ForgotPassword from "./pages/ForgotPassword";
@@ -28,6 +27,27 @@ import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
+// const register = require("./service-worker")z
+window.addEventListener('beforeinstallprompt', (event) => {
+	event.preventDefault();
+	window.deferredPrompt = event;
+	return false
+});
+
+async function install(event){
+	console.log("install clicked")
+	if (window.deferredPrompt !== null) {
+		window.deferredPrompt.prompt();
+		console.log('deferredPrompt await begins')
+		const { outcome } = await window.deferredPrompt.userChoice;
+		if (outcome === 'accepted') {
+			console.log('deferred prompt accepted')
+			window.deferredPrompt = null;
+		}
+		else console.log('deferred prompt outcome = ', outcome)
+	}
+	else console.error('deferred prompt is null')
+}
 
 function App() {
 
@@ -35,11 +55,12 @@ function App() {
   const navigate = useNavigate();
   
   const { user } = useSelector((state) => state.profile)
-
+  // register(null)
 
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter ">
     <Navbar/>
+   <button onClick={install} > install</button>
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="catalog/:catalogName" element={<Catalog/>} />
